@@ -1,26 +1,58 @@
 const Path = require('path');
-const EXtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CleanUp = require('webpack-cleanup-plugin');
+
+const ExtractCSS = new ExtractTextPlugin('app.[hash].css');
 
 const config = {
     entry: './src/app.js',
     output: {
         path: Path.resolve(__dirname , 'dist'),
-        filename: 'app.bundle.js',
+        filename: 'app.[hash].js',
         publicPath: 'dist'
     },
     module: {
         rules: [
             {
                 test: /\.css$/,
-                use: EXtractTextPlugin.extract({
+                use: ExtractCSS.extract({
                     use: 'css-loader',
                     fallback: 'style-loader'
+                })
+            },
+            {
+                test: /\.scss$/,
+                use: ExtractCSS.extract({
+                    use: [
+                        'css-loader',
+                        {
+                            'loader': 'sass-loader',
+                            options: {
+                                outputStyle : 'expanded'
+                            }
+                        }
+                    ]
+                })
+            },
+            {
+                test: /\.sass$/,
+                use: ExtractCSS.extract({
+                    use: [
+                        'css-loader',
+                        {
+                            'loader': 'sass-loader',
+                            options: {
+                                outputStyle : 'expanded'
+                            }
+                        }
+                    ]
                 })
             }
         ]
     },
     plugins: [
-        new EXtractTextPlugin('app.css')
+        ExtractCSS,
+        new CleanUp('dist')
     ]
 };
 
