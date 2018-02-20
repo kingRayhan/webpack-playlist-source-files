@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack",
-    "server": "webpack-dev-server"
+    "server": "webpack-dev-server --open --port 6586"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^3.0.2",
     "style-loader": "^0.20.2",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1"
